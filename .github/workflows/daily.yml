@@ -1,0 +1,25 @@
+name: Daily commit
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # кожен день о 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update file
+        run: |
+          echo "Last update: $(date)" > commit.txt
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "jack25tw"
+          git config --global user.email "jack25tw@outlook.com"
+          git add commit.txt
+          git commit -m "Daily auto commit"
+          git push
